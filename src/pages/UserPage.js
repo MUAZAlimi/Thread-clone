@@ -1,10 +1,10 @@
-import React from 'react'
+import UserHeader from "../component/UserHeader"
 
 const UserPage = () => {
   return (
-    <main>
-      <h1>UserPage</h1>
-    </main>
+    <>
+      <UserHeader/>
+    </>
   )
 }
 
