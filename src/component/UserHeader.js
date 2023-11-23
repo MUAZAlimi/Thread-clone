@@ -1,6 +1,7 @@
 import { Box, Flex, VStack, Text, Link } from "@chakra-ui/layout";
 import { Avatar } from "@chakra-ui/react";
-import {Menu, MenuButton, MenuItem, MenuList, Portal } from "@chakra-ui/menu"
+import {Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu"
+import { Portal } from "@chakra-ui/portal";
 import { CgMoreO } from "react-icons/cg";
 import { BsInstagram } from "react-icons/bs";
 
