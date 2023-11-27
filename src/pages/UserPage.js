@@ -1,15 +1,30 @@
-import UserHeader from "../component/UserHeader"
-import UserPosts from "../component/UserPosts"
+import UserHeader from "../component/UserHeader";
+import UserPosts from "../component/UserPosts";
 
 const UserPage = () => {
-  return (
-    <>
-      <UserHeader/>
-      <UserPosts likes={200} postImg={'/post1.png'} replies={50} postTitle={"hello everyone"}/>
-      <UserPosts likes={10} postImg={'/post2.png'} replies={20} postTitle={"hello my country people "}/>
-      <UserPosts likes={3} postImg={'/post3.png'} replies={1} postTitle={"hello what up"}/>
-    </>
-  )
-}
+   return (
+      <>
+         <UserHeader />
+         <UserPosts
+            likes={200}
+            replies={50}
+            postImg={"/post1.png"}
+            postTitle={"Here we are guys. This is what I am doing..."}
+         />
+         <UserPosts
+            likes={10}
+            replies={20}
+            postImg={""}
+            postTitle={"Hello World! Here we have it"}
+         />
+         <UserPosts
+            likes={3}
+            replies={1}
+            postImg={"/post3.png"}
+            postTitle={"This is awesome. Isn't it amazing?"}
+         />
+      </>
+   );
+};
 
-export default UserPage
+export default UserPage;

@@ -1,20 +1,21 @@
-import { Container } from '@chakra-ui/react'
-import { Routes, Route } from 'react-router-dom'
-import UserPage from './pages/UserPage'
-import PostPage from './pages/PostPage'
-import Hearder from './component/Hearder'
+import {Container } from "@chakra-ui/react"
+import { Route, Routes } from "react-router-dom"
+import UserPage from "./pages/UserPage"
+import PostPage from "./pages/PostPage"
+import Header from "./component/Hearder"
 
-const App = () => {
+
+function App() {
+
   return (
-    <Container  maxW="620px">
-        <Hearder/>
-      <Routes>
-        <Route path='/:username' element={<UserPage />}/>
-        <Route path='/:username/post/:id' element={<PostPage />} />
-      </Routes>
-       
-    </Container>
-  )
+    <Container maxW="620px">
+      <Header/>
+     <Routes>
+      <Route path="/:username" element={<UserPage/>}/>
+      <Route path="/:username/post/:pid" element={<PostPage/>}/>
+     </Routes>
+    </Container> 
+  ) 
 }
 
 export default App
