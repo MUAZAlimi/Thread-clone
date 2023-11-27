@@ -1,6 +1,7 @@
 import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import Actions from "./Actions";
 
 const UserPosts = () => {
   return (
@@ -8,8 +9,8 @@ const UserPosts = () => {
       <Flex gap={3} mb={4} py={5}>
         <Flex flexDir={"column"} alignItems={"center"}>
           <Avatar src="/post1.png" name="Mark Zuckerberg" size={"md"} />
-          <Box w={"1px"} h={"full"} bg={"gray.light"} my={2} ></Box>
-          <Box pos={"relative"} w={"full" }>
+          <Box w={"1px"} h={"full"} bg={"gray.light"} my={2}></Box>
+          <Box pos={"relative"} w={"full"}>
             <Avatar
               src="/post1.png"
               name="Wale Oloyin"
@@ -46,15 +47,22 @@ const UserPosts = () => {
               <Image src="/verified.png" ml={1} w={4} h={4} />
             </Flex>
             <Flex alignItems={"center"} gap={4}>
-              <Text>1d</Text>
+              <Text color={"gray.light"}>1d</Text>
               <BsThreeDots />
             </Flex>
           </Flex>
-            <Text fontSize={"sm"}>Hello Thread!!!</Text>
-            <Box borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
-                <Image src="/post3.png" w={"full"}/>
-            </Box>
-            <Flex></Flex>
+          <Text fontSize={"sm"}>Hello Thread!!!</Text>
+          <Box
+            borderRadius={6}
+            overflow={"hidden"}
+            border={"1px solid"}
+            borderColor={"gray.light"}
+          >
+            <Image src="/post3.png" w={"full"} />
+          </Box>
+          <Flex>
+            <Actions />
+          </Flex>
         </Flex>
       </Flex>
     </Link>
