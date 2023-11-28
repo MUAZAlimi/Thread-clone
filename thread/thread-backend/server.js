@@ -1,7 +1,8 @@
-import express from "express"
-import dotenv from "dotenv"
-import cookieParser from "cookie-parser"
-import mongoose from "mongoose";
+const express = require('express');
+const dotenv = require ( "dotenv")
+const cookieParser = require ( "cookie-parser")
+const mongoose = require  ("mongoose")
+const userRoute = require  ("./routes/userRoutes.js")
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ app.use(express.json({limit: "50md"}))
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
-
+app.use("/api/users", userRoute);
 app.get("/", (req, res) => {
     res.send("Welcome Home 🏠🏠🏡🏡")
 })
