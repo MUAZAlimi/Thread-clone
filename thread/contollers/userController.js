@@ -41,47 +41,62 @@ const signUPUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username})
-      const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
 
-      if(!user || !isPasswordCorrect) return res.status(400).json({error: "Invalid username or password password"})
+    if (!user || !isPasswordCorrect)
+      return res
+        .status(400)
+        .json({ error: "Invalid username or password password" });
 
-      if(user.isFrozen) {
-        user.isFrozen = false
-        await user.save()
-      }
-
-      generateTokenAndSetCookie(user._id, res);
-
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        bio: user.bio,
-        profilePic: user.profilePic
-      })
-    } catch (err) {
-        res.status(500).json({error: err.message})
-        console.log("Error in loginUser", err.message);
+    if (user.isFrozen) {
+      user.isFrozen = false;
+      await user.save();
     }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      bio: user.bio,
+      profilePic: user.profilePic,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+    console.log("Error in loginUser", err.message);
+  }
 };
 
 const logoutUser = (req, res) => {
   try {
-    res.cookie("jwt", "", {maxAge: 1});
-    res.status(200).json({message: "users logout successfully"})
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.status(200).json({ message: "users logout successfully" });
   } catch (err) {
-    res.status(500).json({error: err.message})
+    res.status(500).json({ error: err.message });
     console.log("Error in LogoutUser", err.message);
   }
 };
 
 const followUnFollowUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userToModify = await User.findById(id);
+    const currentUser = await User.findById(req.user_id);
+
+    if(id === req.user._id.toString()) return res.status(400).json({error: "You can't follow/unfollow Your self"})
+    if (!userToModify || !currentUser) return res.status(400).json({error: "User not Found"})
+  
     
-}
+  } catch (err) {}
+};
 
 module.exports = {
   signUPUser,
