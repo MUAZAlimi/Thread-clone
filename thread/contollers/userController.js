@@ -79,7 +79,7 @@ const logoutUser = (req, res) => {
   }
 };
  
-const followUser = (req, res) => {
+const followUnFollowUser = (req, res) => {
 
 }
 
@@ -87,5 +87,5 @@ module.exports = {
   signUPUser,
   loginUser,
   logoutUser,
-  followUser
+  followUnFollowUser
 };

@@ -3,7 +3,7 @@ const {
   signUPUser,
   loginUser,
   logoutUser,
-  followUser,
+  followUnFollowUser,
 } = require("../contollers/userController");
 
 const router = express.Router();
@@ -11,6 +11,6 @@ const router = express.Router();
 router.post("/signup", signUPUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
-router.post("/follow/:id", followUser);
+router.post("/follow/:id", protectRoute, followUnFollowUser);
 
 module.exports = router;
