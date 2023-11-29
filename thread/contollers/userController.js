@@ -80,7 +80,7 @@ const logoutUser = (req, res) => {
 };
 
 const followUnFollowUser = async (req, res) => {
-
+    
 }
 
 module.exports = {
