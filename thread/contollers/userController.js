@@ -94,7 +94,16 @@ const followUnFollowUser = async (req, res) => {
     if(id === req.user._id.toString()) return res.status(400).json({error: "You can't follow/unfollow Your self"})
     if (!userToModify || !currentUser) return res.status(400).json({error: "User not Found"})
   
-    
+      const isFollowing = currentUser.following.includes(id)
+      if(!isFollowing) {
+        await User.findByIdAndUpdate(id, {$pull: {followers: req.user._id}})
+        await User.findByIdAndUpdate(req.user._id, {$pull: {followers: id}})
+        res.status(200).json({success: "User unfollowed successfully "})
+      }else {
+        await User.findByIdAndUpdate(id, {$push: {followers: req.user._id}})
+        await User.findByIdAndUpdate(req.user._id, {$pull: {followers: id}})
+        res.status(200).json({success: "User followed successfully "})
+      }
   } catch (err) {}
 };
 
