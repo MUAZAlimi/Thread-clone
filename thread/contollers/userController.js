@@ -77,10 +77,15 @@ const logoutUser = (req, res) => {
     res.status(500).json({error: err.message})
     console.log("Error in LogoutUser", err.message);
   }
+};
+ 
+const followUser = (req, res) => {
+
 }
 
 module.exports = {
   signUPUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  followUser
 };
