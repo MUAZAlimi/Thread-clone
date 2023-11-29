@@ -2,6 +2,10 @@ const User = require("../models/useModel");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/helper/generateTokenAndSetCookie");
 
+const getUserProfile = async (req, res) => {
+  
+};
+
 const signUPUser = async (req, res) => {
   try {
     const { name, email, username, password } = req.body;
@@ -91,19 +95,23 @@ const followUnFollowUser = async (req, res) => {
     const userToModify = await User.findById(id);
     const currentUser = await User.findById(req.user._id);
 
-    if(id === req.user._id.toString()) return res.status(400).json({error: "You can't follow/unfollow Your self"})
-    if (!userToModify || !currentUser) return res.status(400).json({error: "User not Found"})
-  
-      const isFollowing = currentUser.following.includes(id)
-      if(isFollowing) {
-        await User.findByIdAndUpdate(id, {$pull: {followers: req.user._id}})
-        await User.findByIdAndUpdate(req.user._id, {$pull: {following: id}})
-        res.status(200).json({success: "User unfollowed successfully "})
-      }else {
-        await User.findByIdAndUpdate(id, {$push: {followers: req.user._id}})
-        await User.findByIdAndUpdate(req.user._id, {$push: {following: id}})
-        res.status(200).json({success: "User followed successfully "})
-      }
+    if (id === req.user._id.toString())
+      return res
+        .status(400)
+        .json({ error: "You can't follow/unfollow Your self" });
+    if (!userToModify || !currentUser)
+      return res.status(400).json({ error: "User not Found" });
+
+    const isFollowing = currentUser.following.includes(id);
+    if (isFollowing) {
+      await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
+      await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
+      res.status(200).json({ success: "User unfollowed successfully " });
+    } else {
+      await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
+      await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
+      res.status(200).json({ success: "User followed successfully " });
+    }
   } catch (err) {
     res.status(500).json({ error: err.messaUe });
     console.log("Error in follow/unfollow user", err.message);
@@ -115,4 +123,5 @@ module.exports = {
   loginUser,
   logoutUser,
   followUnFollowUser,
+  getUserProfile,
 };
