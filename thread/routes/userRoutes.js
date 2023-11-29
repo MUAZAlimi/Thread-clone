@@ -5,6 +5,7 @@ const {
   logoutUser,
   followUnFollowUser,
 } = require("../contollers/userController");
+const protectRoute = require("../middleware/protectRoute")
 
 const router = express.Router();
 
