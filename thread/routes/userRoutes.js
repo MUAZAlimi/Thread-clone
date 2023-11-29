@@ -1,11 +1,11 @@
 const express = require("express");
 const {
+  followUnFollowUser,
   signUPUser,
   loginUser,
   logoutUser,
-  followUnFollowUser,
 } = require("../contollers/userController");
-const protectRoute = require("../middleware/protectRoute")
+const protectRoute = require("../middleware/protectRoute");
 
 const router = express.Router();
 
