@@ -36,7 +36,7 @@ const signUPUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log("Error in signup user", error.message);
+    console.log("Error in signupUser", error.message);
   }
 };
 
@@ -65,12 +65,18 @@ const loginUser = async (req, res) => {
       })
     } catch (err) {
         res.status(500).json({error: err.message})
-        console.log("Error in login user", err.message);
+        console.log("Error in loginUser", err.message);
     }
 };
 
-const logoutUser = async (req, res) => {
-
+const logoutUser = (req, res) => {
+  try {
+    res.cookie{"jwt", "", {maxAge: 1}}
+    
+  } catch (err) {
+    res.status(500).json({error: err.message})
+    console.log("Error in logoutUser", err.message);
+  }
 }
 
 module.exports = {
