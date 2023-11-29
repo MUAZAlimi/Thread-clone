@@ -79,7 +79,7 @@ const logoutUser = (req, res) => {
   }
 };
 
-const followUnFollowUser = (req, res) => {
+const followUnFollowUser = async (req, res) => {
 
 }
 
