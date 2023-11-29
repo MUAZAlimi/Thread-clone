@@ -78,7 +78,7 @@ const logoutUser = (req, res) => {
     console.log("Error in LogoutUser", err.message);
   }
 };
- 
+
 const followUnFollowUser = (req, res) => {
 
 }
@@ -87,5 +87,5 @@ module.exports = {
   signUPUser,
   loginUser,
   logoutUser,
-  followUnFollowUser
+  followUnFollowUser,
 };
