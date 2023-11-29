@@ -36,10 +36,40 @@ const signUPUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log("Error in ", error.message);
+    console.log("Error in signup user", error.message);
   }
 };
 
+const loginUser = async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username})
+      const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
+
+      if(!user || !isPasswordCorrect) return res.status(400).json({error: "Invalid username or password password"})
+
+      if(user.isFrozen) {
+        user.isFrozen = false
+        await user.save()
+      }
+
+      generateTokenAndSetCookie(user._id, res);
+
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        bio: user.bio,
+        profiePic: user.profiePic
+      })
+    } catch (err) {
+        res.status(500).json({error: err.message})
+        console.log("Error in login user", err.message);
+    }
+}
+
 module.exports = {
   signUPUser,
+  loginUser
 };
