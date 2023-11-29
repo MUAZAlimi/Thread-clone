@@ -61,15 +61,20 @@ const loginUser = async (req, res) => {
         email: user.email,
         username: user.username,
         bio: user.bio,
-        profiePic: user.profiePic
+        profilePic: user.profilePic
       })
     } catch (err) {
         res.status(500).json({error: err.message})
         console.log("Error in login user", err.message);
     }
+};
+
+const logoutUser = async (req, res) => {
+
 }
 
 module.exports = {
   signUPUser,
-  loginUser
+  loginUser,
+  logoutUser
 };
