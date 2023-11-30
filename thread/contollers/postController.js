@@ -30,9 +30,10 @@ const createPost = async (req, res) => {
     res.status(201).json({ message: "Post created successfully", newPost})
 
 
-  } catch (err) {}
-  res.status(500).json({ message: err.message });
-  console.log("Error in Create post", err.message);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in Create post", err.message);
+  }
 };
 
 module.exports = {
