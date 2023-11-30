@@ -1,30 +1,33 @@
 const User = require("../models/useModel");
 const bcrypt = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/helper/generateTokenAndSetCookie");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const getUserProfile = async (req, res) => {
   // we fetch the user profile either by user name or userId
   // query is either username or userId
 
-  const  { query } = req.params;
+  const { query } = req.params;
   try {
-      let user;
+    let user;
 
-      // query  is  userId
-      if (mongoose.Types.ObjectId.isValid(query)) {
-          user = await User.findOne({_id: query}).select("-password").select("-updateAt");
-      }else {
-        // query is username
-        user = await User.findOne({username: query}).select("-password").select("-updateAt");
-      }
+    // query  is  userId
+    if (mongoose.Types.ObjectId.isValid(query)) {
+      user = await User.findOne({ _id: query })
+        .select("-password")
+        .select("-updateAt");
+    } else {
+      // query is username
+      user = await User.findOne({ username: query })
+        .select("-password")
+        .select("-updateAt");
+    }
 
-      if(!user) {
-        return res.status(400).json({message:"User not found"})
-      }else{
-        return res.status(200).json({user})
-      }
-
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    } else {
+      return res.status(200).json({ user });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
     console.log("Error in getUserProfile", err.message);
@@ -143,10 +146,41 @@ const followUnFollowUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  const { name, email, username, password, profilePic, bio } = req.body;
+  const userId = req.user._id
+  try {
+    let user = await User.findById(userId)
+    if(!user) return res.status(400).json({message: "User not found"})
+
+    if (req.params.id !== userId.toString())
+     return res.status(400).json({message: "You cannot update othre user's profile"});
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hashPassword(password, salt)
+      user.password = hashedPassword
+    }
+    user.name = name || user.name
+    user.email = email || user.email
+    user.username = username || user.username
+    user.profilePic = profilePic || user.profilePic
+    user.bio = bio || user.bio 
+
+    user = await user.save()
+
+    res.status(200).json({message:  "Profile updated successfully", user})
+  } catch (err) {
+    res.status(500).json({ error: err.messaUe });
+    console.log("Error in updateUser", err.message);
+  }
+};
+
 module.exports = {
   getUserProfile,
   signUPUser,
   loginUser,
   logoutUser,
   followUnFollowUser,
+  updateUser,
 };

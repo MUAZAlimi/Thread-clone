@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/userRoutes.js");
+const postRoute = require("./routes/postRoutes.js");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
 app.get("/", (req, res) => {
   res.send("Welcome Home 🏠🏠🏡🏡");
 });
