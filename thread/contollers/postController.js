@@ -24,13 +24,11 @@ const createPost = async (req, res) => {
         .status(400)
         .json({ message: `Text must be less than ${maxLength} characters` });
     }
-    const newPost = new Post({postedBy, text, img});
+    const newPost = new Post({ postedBy, text, img });
 
-    await newPost.save()
+    await newPost.save();
 
-    res.status(201).json({ message: "Post created successfully", newPost})
-
-
+    res.status(201).json({ message: "Post created successfully", newPost });
   } catch (err) {
     res.status(500).json({ message: err.message });
     console.log("Error in Create post", err.message);
@@ -38,44 +36,55 @@ const createPost = async (req, res) => {
 };
 
 const getPost = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
+  try {
+    const post = await Post.findById(req.params.id);
 
-        if(!post){
-            return res.status(404).json({message: "Post not found"})
-        }
-
-        res.status(200).json({post})
-
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-        console.log("Error in Get post:", err.message);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
     }
-}
+
+    res.status(200).json({ post });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in Get post:", err.message);
+  }
+};
 
 const deletePost = async (req, res) => {
-try {
-    const post = await Post.findById(req.params.id)
+  try {
+    const post = await Post.findById(req.params.id);
 
-    if(!post){
-         return res.status(404).json({message: "post not found"})
+    if (!post) {
+      return res.status(404).json({ message: "post not found" });
     }
 
-    if(post.postedBy.toString() !== req.user._id.toString()){
-        return res.status(404).json({message: "Unauthorized to delete  this post"})
+    if (post.postedBy.toString() !== req.user._id.toString()) {
+      return res
+        .status(404)
+        .json({ message: "Unauthorized to delete  this post" });
     }
 
-    await Post.findByIdAndDelete(req.params.id)
+    await Post.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({message: "post deleted successfully"})
-} catch (err) {
+    res.status(200).json({ message: "post deleted successfully" });
+  } catch (err) {
     res.status(500).json({ message: err.message });
     console.log("Error in Delete post:", err.message);
-}
-}
+  }
+};
+
+const likeUnlikePost = async (req, res) => {
+  try {
+    
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in LikeUnlikePost:", err.message);
+  }
+};
 
 module.exports = {
   createPost,
   getPost,
   deletePost,
+  likeUnlikePost,
 };
