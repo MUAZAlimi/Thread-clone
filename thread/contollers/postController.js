@@ -146,5 +146,5 @@ module.exports = {
   deletePost,
   likeUnlikePost,
   replyToPost,
-  getFeedPost
+  get
 };
