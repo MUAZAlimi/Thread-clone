@@ -119,12 +119,21 @@ const replyToPost = async (req, res) => {
             return res.status(404).json({message: "Post not found"})
         }
 
-        const reply = {userId,text, userProfilePic, username}
+        const reply = {userId, text, userProfilePic, username}
 
         post.replies.push(reply)
         await post.save()
 
         res.status(200).json({message: "reply added successfully", post})
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+        console.log("Error in ReplyToPost:", err.message);
+    }
+}
+
+const getFeedPost = async (req, res) => {
+    try {
+        
     } catch (err) {
         res.status(500).json({ message: err.message });
         console.log("Error in ReplyToPost:", err.message);
@@ -137,4 +146,5 @@ module.exports = {
   deletePost,
   likeUnlikePost,
   replyToPost,
+  getFeedPost
 };
