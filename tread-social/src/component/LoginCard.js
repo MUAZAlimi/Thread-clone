@@ -23,7 +23,7 @@ import {
       <Flex
         align={'center'}
         justify={'center'}>
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} w={"32rem"}>
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
             <Heading fontSize={'4xl'} textAlign={'center'}>
               Login
@@ -33,7 +33,11 @@ import {
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.dark')}
             boxShadow={'lg'}
-            p={8}>
+            p={8}
+            w={{
+                base: "full",
+                sm: "400px"
+            }}>
             <Stack spacing={4}>
               <FormControl isRequired>
                 <FormLabel>Username</FormLabel>
