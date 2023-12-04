@@ -39,7 +39,7 @@ export default function SignUpCard() {
         method: "POST",
         headers: {
            "Content-Type": "application/json"
-        }
+        },
       })
     } catch (error) {
       showToast("Error", error, "error")
