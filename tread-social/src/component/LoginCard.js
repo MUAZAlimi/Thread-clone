@@ -81,7 +81,7 @@ export default function LoginCard() {
                 _hover={{
                   bg: 'blue.500',
                 }}>
-                Sign up
+                Login
               </Button>
             </Stack>
             <Stack pt={6}>

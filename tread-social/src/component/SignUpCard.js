@@ -22,22 +22,17 @@ export default function SignUpCard() {
 
   return (
     <Flex
-      minH={'100vh'}
       align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
-          </Text>
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={useColorModeValue('white', 'gray.dark')}
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
@@ -76,10 +71,10 @@ export default function SignUpCard() {
               <Button
                 loadingText="Submitting"
                 size="lg"
-                bg={'blue.400'}
+                bg={useColorModeValue('gray.600', 'gray.700')}
                 color={'white'}
                 _hover={{
-                  bg: 'blue.500',
+                  bg: useColorModeValue('gray.700', 'gray.800'),
                 }}>
                 Sign up
               </Button>
