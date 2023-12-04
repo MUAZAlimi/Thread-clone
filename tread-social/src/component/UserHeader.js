@@ -27,10 +27,10 @@ const UserHeader = () => {
          <Flex justifyContent={"space-between"} w={"full"}>
             <Box>
                <Text fontSize={"2xl"} fontWeight={"bold"}>
-                  Aliu Musa
+                  Alimi Muaz
                </Text>
                <Flex gap={2} alignItems={"center"}>
-                  <Text fontSize={"sm"}>aliumusa@99</Text>
+                  <Text fontSize={"sm"}>muazalimi7@</Text>
                   <Text
                      fontSize={"xs"}
                      bg={"gray.dark"}
@@ -46,10 +46,10 @@ const UserHeader = () => {
                <Avatar name="Aliu Musa" src="/directorPro.jpeg" size={{base: "md", md: "xl"}} />
             </Box>
          </Flex>
-         <Text>Founder, executive chairman and CEO of DLTAfrica</Text>
+         <Text>I am a student of DLTAfrica</Text>
          <Flex w={"full"} justifyContent={"space-between"}>
             <Flex gap={2} alignItems={"center"}>
-               <Text color={"gray.light"}>3.2k followers</Text>
+               <Text color={"gray.light"}>2.5m followers</Text>
                <Box w={1} h={1} bg={"gray.light"} borderRadius={"50%"}></Box>
                <Link color={"gray.light"}>instagram.com</Link>
             </Flex>

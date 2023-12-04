@@ -23,8 +23,8 @@ const PostPage = () => {
         justifyContent={"space-between"}
       >
         <Flex alignItems={"center"}>
-          <Avatar src="/aliumusa.jpeg" name="Aliu Musa" size={"md"} mr={2} />
-          <Text fontSize={"sm"}>Aliu Musa</Text>
+          <Avatar src="/aliumusa.jpeg" name="Alimi Muaz" size={"md"} mr={2} />
+          <Text fontSize={"sm"}>Alimi Muaz</Text>
           <Image src="/verified.png" h={4} w={4} ml={2} />
         </Flex>
         <Flex alignItems={"center"} gap={4}>
