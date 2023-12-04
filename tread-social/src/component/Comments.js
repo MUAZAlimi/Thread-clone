@@ -4,15 +4,11 @@ import { BsThreeDots } from "react-icons/bs";
 import Actions from "./Actions";
 
 const Comments = ({ comment, createdAt, likes, username, userAvater }) => {
-    const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(false);
   return (
     <>
       <Flex gap={4} my={2} py={2} w={"full"}>
-        <Avatar
-        src={userAvater}
-          size={"sm"}
-          name={username}
-        />
+        <Avatar src={userAvater} size={"sm"} name={username} />
         <Flex flexDir={"column"} gap={1} w={"full"}>
           <Flex
             justifyContent={"space-between"}
@@ -23,7 +19,9 @@ const Comments = ({ comment, createdAt, likes, username, userAvater }) => {
               {username}
             </Text>
             <Flex gap={2} alignItems={"center"}>
-              <Text fontSize={"sm"} color={"gray.light"}>{createdAt}</Text>
+              <Text fontSize={"sm"} color={"gray.light"}>
+                {createdAt}
+              </Text>
               <BsThreeDots />
             </Flex>
           </Flex>

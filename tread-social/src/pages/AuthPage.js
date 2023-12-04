@@ -5,13 +5,9 @@ import { useRecoilValue } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 
 const AuthPage = () => {
-    const authScreenState = useRecoilValue(authScreenAtom)
+  const authScreenState = useRecoilValue(authScreenAtom);
 
-  return (
-    <>
-      {authScreenState === "login" ? <LoginCard /> : <SignUpCard /> }
-    </>
-  );
+  return <>{authScreenState === "login" ? <LoginCard /> : <SignUpCard />}</>;
 };
 
 export default AuthPage;

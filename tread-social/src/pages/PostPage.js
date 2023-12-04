@@ -68,10 +68,28 @@ const PostPage = () => {
         <Button>Get</Button>
       </Flex>
       <Divider my={4} />
-      
-      <Comments comment={"This is amazing"} createdAt={"2 min ago"} userAvater={"https://bit.ly/ryan-florence"} likes={12} username={"JohnDoe"}/>
-      <Comments comment={" This is an amazing post. Thanks for the update"} userAvater={"/directorPro.jpeg"} createdAt={"5 min ago"} likes={13} username={"Aliumusa"}/>
-      <Comments comment={"Hello World!"} createdAt={"10 min ago"} userAvater={"https://bit.ly/ryan-florence"} likes={18} username={"Muha"}/>
+
+      <Comments
+        comment={"This is amazing"}
+        createdAt={"2 min ago"}
+        userAvater={"https://bit.ly/ryan-florence"}
+        likes={12}
+        username={"JohnDoe"}
+      />
+      <Comments
+        comment={" This is an amazing post. Thanks for the update"}
+        userAvater={"/directorPro.jpeg"}
+        createdAt={"5 min ago"}
+        likes={13}
+        username={"Aliumusa"}
+      />
+      <Comments
+        comment={"Hello World!"}
+        createdAt={"10 min ago"}
+        userAvater={"https://bit.ly/ryan-florence"}
+        likes={18}
+        username={"Muha"}
+      />
     </>
   );
 };
