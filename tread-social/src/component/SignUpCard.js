@@ -75,26 +75,38 @@ export default function SignUpCard() {
           <Stack spacing={4}>
             <HStack>
               <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
+                <FormControl isRequired>
+                  <FormLabel>Full Name</FormLabel>
+                  <Input type="text" 
+                    onChange={(e) => setInputs({...inputs, name: e.target.value})}
+                    value={inputs.name}
+                  />
                 </FormControl>
               </Box>
               <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
+                <FormControl isRequired>
+                  <FormLabel>Username</FormLabel>
+                  <Input type="text"
+                    onChange={(e) => setInputs({...inputs, username: e.target.value})}
+                    value={inputs.username}
+                  />
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl id="email" isRequired>
+            <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email"
+                onChange={(e) => setInputs({...inputs, email: e.target.value})}
+                value={inputs.email}
+              />
             </FormControl>
-            <FormControl id="password" isRequired>
+            <FormControl isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setInputs({...inputs, password: e.target.value})}
+                  value={inputs.password}
+                />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
