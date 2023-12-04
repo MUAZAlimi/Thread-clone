@@ -75,25 +75,25 @@ const deletePost = async (req, res) => {
 
 const likeUnlikePost = async (req, res) => {
   try {
-    const {id:postId} = req.params;
-    const userId = req.user._id
+    const { id: postId } = req.params;
+    const userId = req.user._id;
 
-    const post = await Post.findById(postId)
+    const post = await Post.findById(postId);
 
     if (!post) {
-        return res.status(404).json({message: "Post not found"})
+      return res.status(404).json({ message: "Post not found" });
     }
 
-    const userLikePost = post.likes.includes(userId)
+    const userLikePost = post.likes.includes(userId);
 
     if (userLikePost) {
-        await Post.updateOne({id:postId}, {$pull: {likes: userId}})
-        res.status(200).json({message: "Post unliked successfully"})
+      await Post.updateOne({ id: postId }, { $pull: { likes: userId } });
+      res.status(200).json({ message: "Post unliked successfully" });
     } else {
-        post.likes.push(userId)
-        await post.save()
+      post.likes.push(userId);
+      await post.save();
 
-        res.status(200).json({message: "Post liked successfully"})
+      res.status(200).json({ message: "Post liked successfully" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -102,60 +102,62 @@ const likeUnlikePost = async (req, res) => {
 };
 
 const replyToPost = async (req, res) => {
-    try {
-        const { text } = req.body;
-        const postId = req.params.id
-        const userId = req.user._id
-        const userProfilePic = req.user.userProfilePic
-        const username = req.user.username
+  try {
+    const { text } = req.body;
+    const postId = req.params.id;
+    const userId = req.user._id;
+    const userProfilePic = req.user.userProfilePic;
+    const username = req.user.username;
 
-        if (!text) {
-            return res.status(400).json({message: "Text field is Required"})
-        }
-
-        const post = await Post.findById(postId)
-
-        if (!post) {
-            return res.status(404).json({message: "Post not found"})
-        }
-
-        const reply = {userId, text, userProfilePic, username}
-
-        post.replies.push(reply)
-        await post.save()
-
-        res.status(200).json({message: "reply added successfully", post})
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-        console.log("Error in ReplyToPost:", err.message);
+    if (!text) {
+      return res.status(400).json({ message: "Text field is Required" });
     }
-}
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const reply = { userId, text, userProfilePic, username };
+
+    post.replies.push(reply);
+    await post.save();
+
+    res.status(200).json({ message: "reply added successfully", post });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in ReplyToPost:", err.message);
+  }
+};
 
 const getFeedPost = async (req, res) => {
-    try {
-        const userId = req.user._id
-        const user = await User.findById(userId)
-        
-        if (!user) {
-            return res.status(404).jso({message: "User not found"})
-        }
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
 
-        const following = user.following
-
-        const feedPosts = await Post.find({postedBy: {$in: following}}).sort({createAt: -1});
-
-        res.status(200).json({feedPosts})
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-        console.log("Error in FeedPost:", err.message);
+    if (!user) {
+      return res.status(404).jso({ message: "User not found" });
     }
-}
+
+    const following = user.following;
+
+    const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({
+      createAt: -1,
+    });
+
+    res.status(200).json({ feedPosts });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in FeedPost:", err.message);
+  }
+};
 
 module.exports = {
   createPost,
+  getFeedPost,
   getPost,
   deletePost,
   likeUnlikePost,
   replyToPost,
-  getFeedPost
 };
