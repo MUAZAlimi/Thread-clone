@@ -17,7 +17,7 @@ import userAtom from '../atoms/userAtom'
 import { useRecoilState } from 'recoil'
 import usePreviewImg from '../hooks/usePreviewImg'
 
-export default function UpdateProfilePage(req, res) {
+export default function UpdateProfilePage() {
   const [user, setUser] = useRecoilState(userAtom)
   const [inputs, setInputs] = useState({
       name:user.name,
@@ -27,7 +27,7 @@ export default function UpdateProfilePage(req, res) {
       password:'',
   })
     const fileRef = useRef(null)
-    const {handleImageChange} =  usePreviewImg()
+    const { imgUrl, handleImageChange} =  usePreviewImg()
 
   return (
     <Flex
@@ -48,7 +48,7 @@ export default function UpdateProfilePage(req, res) {
         <FormControl id="userName">
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" boxShadow={'md'} src={user.profilePic} />
+              <Avatar size="xl" boxShadow={'md'} src={imgUrl || user.profilePic} />
 
             </Center>
             <Center w="full">
