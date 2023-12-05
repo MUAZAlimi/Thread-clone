@@ -22,7 +22,7 @@ export default function UpdateProfilePage(req, res) {
       name:user.name,
       username:user.username,
       email:user.email,
-      bio:user,
+      bio:user.bio,
       password:'',
   })
 
@@ -46,7 +46,7 @@ export default function UpdateProfilePage(req, res) {
         <FormControl id="userName">
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo" />
+              <Avatar size="xl" src={user.profilePic} />
             </Center>
             <Center w="full">
               <Button w="full">Change Avatar</Button>
@@ -56,25 +56,31 @@ export default function UpdateProfilePage(req, res) {
         <FormControl isRequired>
           <FormLabel>Full name</FormLabel>
           <Input
-            placeholder={inputs.name}
+            placeholder="your fullname"
             _placeholder={{ color: 'gray.500' }}
             type="text"
+            value={inputs.name}
+            onChange={(e) =>  setInputs({...inputs, name: e.target.value})}
           />
         </FormControl>
         <FormControl isRequired>
           <FormLabel>User name</FormLabel>
           <Input
-            placeholder={inputs.username}
+            placeholder="UserName"
             _placeholder={{ color: 'gray.500' }}
             type="text"
+            value={inputs.username}
+            onChange={(e) =>  setInputs({...inputs, username: e.target.value})}
           />
         </FormControl>
         <FormControl isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
-            placeholder={inputs.email}
+            placeholder="your-email@example.com"
             _placeholder={{ color: 'gray.500' }}
             type="email"
+            value={inputs.email}
+            onChange={(e) =>  setInputs({...inputs, email: e.target.value})}
           />
         </FormControl>
         <FormControl isRequired>
@@ -91,6 +97,8 @@ export default function UpdateProfilePage(req, res) {
             placeholder="password"
             _placeholder={{ color: 'gray.500' }}
             type="password"
+            value={inputs.password}
+            onChange={(e) =>  setInputs({...inputs, password: e.target.value})}
           />
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
