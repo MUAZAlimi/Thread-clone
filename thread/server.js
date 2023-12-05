@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/userRoutes.js");
 const postRoute = require("./routes/postRoutes.js");
-const { v2 } = require("cloudinary");
+const cloudinary = require("cloudinary").v2
 
 dotenv.config();
 
