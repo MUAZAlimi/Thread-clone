@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Flex,
@@ -8,17 +10,28 @@ import {
   Stack,
   useColorModeValue,
   Avatar,
-  AvatarBadge,
-  IconButton,
   Center,
 } from '@chakra-ui/react'
-import { SmallCloseIcon } from '@chakra-ui/icons'
+import { useState } from 'react'
+import userAtom from '../atoms/userAtom'
+import { useRecoilState } from 'recoil'
 
-export default function UpdateProfilePage() {
+export default function UpdateProfilePage(req, res) {
+  const [user, setUser] = useRecoilState(userAtom)
+  const [inputs, setInputs] = useState({
+      name:user.name,
+      username:user.username,
+      email:user.email,
+      bio:user,
+      password:'',
+  })
+
+  console.log(user,  "user is here")
   return (
     <Flex
       align={'center'}
-      justify={'center'}>
+      justify={'center'}
+      my={6}>
       <Stack
         spacing={4}
         w={'full'}
@@ -26,8 +39,7 @@ export default function UpdateProfilePage() {
         bg={useColorModeValue('white', 'gray.dark')}
         rounded={'xl'}
         boxShadow={'lg'}
-        p={6}
-        my={12}>
+        p={6}>
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
           User Profile Edit
         </Heading>
@@ -41,23 +53,39 @@ export default function UpdateProfilePage() {
             </Center>
           </Stack>
         </FormControl>
-        <FormControl id="userName" isRequired>
-          <FormLabel>User name</FormLabel>
+        <FormControl isRequired>
+          <FormLabel>Full name</FormLabel>
           <Input
-            placeholder="UserName"
+            placeholder={inputs.name}
             _placeholder={{ color: 'gray.500' }}
             type="text"
           />
         </FormControl>
-        <FormControl id="email" isRequired>
+        <FormControl isRequired>
+          <FormLabel>User name</FormLabel>
+          <Input
+            placeholder={inputs.username}
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+          />
+        </FormControl>
+        <FormControl isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
-            placeholder="your-email@example.com"
+            placeholder={inputs.email}
             _placeholder={{ color: 'gray.500' }}
             type="email"
           />
         </FormControl>
-        <FormControl id="password" isRequired>
+        <FormControl isRequired>
+          <FormLabel>Bio</FormLabel>
+          <Input
+            placeholder="your bio...."
+            _placeholder={{ color: 'gray.500' }}
+            type="textarea"
+          />
+        </FormControl>
+        <FormControl isRequired>
           <FormLabel>Password</FormLabel>
           <Input
             placeholder="password"
@@ -76,11 +104,11 @@ export default function UpdateProfilePage() {
             Cancel
           </Button>
           <Button
-            bg={'blue.400'}
+            bg={'green.400'}
             color={'white'}
             w="full"
             _hover={{
-              bg: 'blue.500',
+              bg: 'green.500',
             }}>
             Submit
           </Button>
