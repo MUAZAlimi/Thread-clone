@@ -75,10 +75,10 @@ export default function LoginCard() {
               <FormLabel>Username</FormLabel>
               <Input
                 type="text"
+                value={inputs.username}
                 onChange={(e) =>
                   setInputs({ ...inputs, username: e.target.value })
                 }
-                value={inputs.username}
               />
             </FormControl>
             <FormControl isRequired>
@@ -86,10 +86,10 @@ export default function LoginCard() {
               <InputGroup>
                 <Input
                   type={showPassword ? "text" : "password"}
+                  value={inputs.password}
                   onChange={(e) =>
                     setInputs({ ...inputs, password: e.target.value })
                   }
-                  value={inputs.password}
                 />
                 <InputRightElement h={"full"}>
                   <Button
