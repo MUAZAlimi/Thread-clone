@@ -167,6 +167,13 @@ const updateUser = async (req, res) => {
       const hashedPassword = await bcrypt.hashPassword(password, salt);
       user.password = hashedPassword;
     }
+    if(profilePic){
+      if(user.profilePic){
+        await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split('.')[0])
+      }
+       const uploadResponse = await cloudinary.uploader.upload(profilePic)
+       profilePic = uploadResponse.secure_url;
+    }
     user.name = name || user.name;
     user.email = email || user.email;
     user.username = username || user.username;
