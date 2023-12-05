@@ -40,11 +40,12 @@ export default function LoginCard() {
         body: JSON.stringify(inputs),
       });
       const data = await res.json();
+      console.log(data)
 
       if (data.error) {
         showToast("Error", data.error, "error");
         return;
-      }
+      };
 
       localStorage.setItem("user-threads", JSON.stringify(data));
       setUser(data);
@@ -77,7 +78,10 @@ export default function LoginCard() {
                 type="text"
                 value={inputs.username}
                 onChange={(e) =>
-                  setInputs({ ...inputs, username: e.target.value })
+                  setInputs((inputs) => ({
+                    ...inputs,
+                    username: e.target.value,
+                  }))
                 }
               />
             </FormControl>
@@ -88,7 +92,10 @@ export default function LoginCard() {
                   type={showPassword ? "text" : "password"}
                   value={inputs.password}
                   onChange={(e) =>
-                    setInputs({ ...inputs, password: e.target.value })
+                    setInputs((inputs) => ({
+                      ...inputs,
+                      password: e.target.value,
+                    }))
                   }
                 />
                 <InputRightElement h={"full"}>
@@ -120,7 +127,10 @@ export default function LoginCard() {
             <Stack pt={6}>
               <Text align={"center"}>
                 Don&apos;t have an account?{" "}
-                <Link color={"blue.400"} onClick={() => setAuthScreen("signup")}>
+                <Link
+                  color={"blue.400"}
+                  onClick={() => setAuthScreen("signup")}
+                >
                   Sign Up
                 </Link>
               </Text>
