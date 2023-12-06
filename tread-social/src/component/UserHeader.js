@@ -1,13 +1,18 @@
 import { Box, Flex, Text, VStack, Link } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Portal } from "@chakra-ui/portal";
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, Button } from "@chakra-ui/react";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useToast } from "@chakra-ui/toast";
+import userAtom from "../atoms/userAtom";
+import { useRecoilValue } from "recoil";
+import { Link as RouterLink } from "react-router-dom";
+
 
 const UserHeader = ({ user }) => {
   const toast = useToast();
+  const currentUser = useRecoilValue(userAtom)
 
   const copyURL = () => {
     const currentURL = window.location.href;
@@ -30,7 +35,7 @@ const UserHeader = ({ user }) => {
             {user.name}
           </Text>
           <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"sm"}>{user.username}@</Text>
+            <Text fontSize={"sm"}>{user.username}</Text>
             <Text
               fontSize={"xs"}
               bg={"gray.dark"}
@@ -60,9 +65,19 @@ const UserHeader = ({ user }) => {
         </Box>
       </Flex>
       <Text>{user.bio}</Text>
+      {currentUser._id === user._id && (
+      <Link as={RouterLink} to="/update">
+      <Button size={"sm"}>Update Profile</Button>
+      </Link>
+      )}
+      {currentUser._id !== user._id && (
+      <Link as={RouterLink} >
+      <Button size={"sm"}>Follow</Button>
+      </Link>
+      )}
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
-          <Text color={"gray.light"}>2.5m followers</Text>
+          <Text color={"gray.light"}>{user.followers}</Text>
           <Box w={1} h={1} bg={"gray.light"} borderRadius={"50%"}></Box>
           <Link color={"gray.light"}>instagram.com</Link>
         </Flex>
@@ -86,6 +101,7 @@ const UserHeader = ({ user }) => {
           </Box>
         </Flex>
       </Flex>
+
       <Flex w={"full"}>
         <Flex
           flex={1}
@@ -99,13 +115,13 @@ const UserHeader = ({ user }) => {
 
         <Flex
           flex={1}
-          borderBottom={"1.5px solid gray"}
+          borderBottom={"1px solid gray"}
           justifyContent={"center"}
-          color={"gray.light"}
           pb={"3"}
+          color={"gray.light"}
           cursor={"pointer"}
         >
-          <Text fontWeight={"bold"}> Replies</Text>
+          <Text fontWeight={"bold"}>Replies</Text>
         </Flex>
       </Flex>
     </VStack>

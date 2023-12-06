@@ -13,8 +13,8 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import userAtom from "../atoms/userAtom";
 import { useRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
 
@@ -27,33 +27,30 @@ export default function UpdateProfilePage() {
     bio: user.bio,
     password: "",
   });
+
   const fileRef = useRef(null);
-  const { imgUrl, handleImageChange } = usePreviewImg();
+  const { imgUrl, handleImgChange } = usePreviewImg();
   const showToast = useShowToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await fetch(`/api/users/update/${user._id}`, {
+      const res = await fetch(`api/users/update/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...inputs, profilepic: imgUrl})
-
-    })
-
-    const data = await res.json()
-
-    if(data.error) {
-      showToast("Error", data.error, "error")
-      return;
-    }
-    showToast("Success", "Profile updated successfully", "success")
-    setUser(data)
-    localStorage.setItem("users-thread", JSON.stringify(data))
-
+        body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        showToast("Error", data.error, "error");
+        return;
+      }
+      showToast("Success", "Profile updated successfully", "success");
+      setUser(data);
+      localStorage.setItem("users-threads", JSON.stringify(data));
+      
     } catch (error) {
       showToast("Error", error, "error");
     }
@@ -74,7 +71,7 @@ export default function UpdateProfilePage() {
           <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
             User Profile Edit
           </Heading>
-          <FormControl id="userName">
+          <FormControl>
             <Stack direction={["column", "row"]} spacing={6}>
               <Center>
                 <Avatar
@@ -85,13 +82,13 @@ export default function UpdateProfilePage() {
               </Center>
               <Center w="full">
                 <Button onClick={() => fileRef.current.click()} w="full">
-                  Change Avatar
+                  Change Avartar
                 </Button>
                 <Input
                   type="file"
                   hidden
                   ref={fileRef}
-                  onChange={handleImageChange}
+                  onChange={handleImgChange}
                 />
               </Center>
             </Stack>
@@ -99,7 +96,7 @@ export default function UpdateProfilePage() {
           <FormControl>
             <FormLabel>Full name</FormLabel>
             <Input
-              placeholder="your fullname"
+              placeholder="Fullname"
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={inputs.name}
@@ -113,15 +110,13 @@ export default function UpdateProfilePage() {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={inputs.username}
-              onChange={(e) =>
-                setInputs({ ...inputs, username: e.target.value })
-              }
+              onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
             />
           </FormControl>
           <FormControl>
             <FormLabel>Email address</FormLabel>
             <Input
-              placeholder="your-email@example.com"
+              placeholder="email@example.com"
               _placeholder={{ color: "gray.500" }}
               type="email"
               value={inputs.email}
@@ -131,23 +126,21 @@ export default function UpdateProfilePage() {
           <FormControl>
             <FormLabel>Bio</FormLabel>
             <Input
-              placeholder="your bio...."
-              value={inputs.bio}
+              placeholder="Bio..."
               _placeholder={{ color: "gray.500" }}
               type="textarea"
+              value={inputs.bio}
               onChange={(e) => setInputs({ ...inputs, bio: e.target.value })}
             />
           </FormControl>
           <FormControl>
             <FormLabel>Password</FormLabel>
             <Input
-              placeholder="password"
+              placeholder="Password"
               _placeholder={{ color: "gray.500" }}
               type="password"
               value={inputs.password}
-              onChange={(e) =>
-                setInputs({ ...inputs, password: e.target.value })
-              }
+              onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
             />
           </FormControl>
           <Stack spacing={6} direction={["column", "row"]}>
