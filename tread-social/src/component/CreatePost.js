@@ -21,6 +21,7 @@ const CreatePost = () => {
             right={10}
             leftIcon={<AddIcon/>}
             bg={'gray'}
+            onClick={onOpen}
         >
             Post
         </Button>
@@ -30,10 +31,7 @@ const CreatePost = () => {
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text fontWeight='bold' mb='1rem'>
-              You can scroll the content behind the modal
-            </Text>
-            <Lorem count={2} />
+            Text
           </ModalBody>
 
           <ModalFooter>
@@ -44,7 +42,6 @@ const CreatePost = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
     </>
   )
 }

@@ -27,7 +27,7 @@ function App() {
 
       </Routes>
         {user && <LogoutButton/> }
-        <CreatePost/> 
+        {user && <CreatePost/> }
     </Container>
   );
 }
