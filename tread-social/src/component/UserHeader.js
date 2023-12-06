@@ -6,7 +6,7 @@ import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useToast } from "@chakra-ui/toast";
 
-const UserHeader = ({user}) => {
+const UserHeader = ({ user }) => {
   const toast = useToast();
 
   const copyURL = () => {
@@ -43,11 +43,20 @@ const UserHeader = ({user}) => {
           </Flex>
         </Box>
         <Box>
-          <Avatar
-            name={user.name}
-            src={user.profilePic}
-            size={{ base: "md", md: "xl" }}
-          />
+          {user.profilePic && (
+            <Avatar
+              name={user.name}
+              src={user.profilePic}
+              size={{ base: "md", md: "xl" }}
+            />
+            )}
+          {!user.profilePic && (
+            <Avatar
+              name={user.name}
+              src="https://bit.ly/broken-link"
+              size={{ base: "md", md: "xl" }}
+            />
+          )}
         </Box>
       </Flex>
       <Text>{user.bio}</Text>
