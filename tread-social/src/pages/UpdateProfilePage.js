@@ -48,7 +48,12 @@ export default function UpdateProfilePage() {
 
     if(data.error) {
       showToast("Error", data.error, "error")
+      return;
     }
+    showToast("Success", "Profile updated successfully", "success")
+    setUser(data)
+    localStorage.setItem("users-thread", JSON.stringify(data))
+
     } catch (error) {
       showToast("Error", error, "error");
     }
