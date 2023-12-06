@@ -45,7 +45,10 @@ export default function UpdateProfilePage() {
     })
 
     const data = await res.json()
-    console.log(data)
+
+    if(data.error) {
+      showToast("Error", data.error, "error")
+    }
     } catch (error) {
       showToast("Error", error, "error");
     }
@@ -124,8 +127,10 @@ export default function UpdateProfilePage() {
             <FormLabel>Bio</FormLabel>
             <Input
               placeholder="your bio...."
+              value={inputs.bio}
               _placeholder={{ color: "gray.500" }}
               type="textarea"
+              onChange={(e) => setInputs({ ...inputs, bio: e.target.value })}
             />
           </FormControl>
           <FormControl>

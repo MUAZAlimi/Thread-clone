@@ -177,12 +177,14 @@ const updateUser = async (req, res) => {
     user.name = name || user.name;
     user.email = email || user.email;
     user.username = username || user.username;
-    user.profilePic = profilePic || user.profilePic;
     user.bio = bio || user.bio;
+    user.profilePic = profilePic || user.profilePic;
 
     user = await user.save();
 
-    res.status(200).json({ message: "Profile updated successfully", user });
+    user.password = null
+
+    res.status(200).json( user );
   } catch (err) {
     res.status(500).json({ error: err.messaUe });
     console.log("Error in updateUser", err.message);
