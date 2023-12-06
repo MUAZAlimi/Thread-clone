@@ -8,11 +8,15 @@ import { useToast } from "@chakra-ui/toast";
 import userAtom from "../atoms/userAtom";
 import { useRecoilValue } from "recoil";
 import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import useShowToast from "../hooks/useShowToast";
 
 
 const UserHeader = ({ user }) => {
   const toast = useToast();
   const currentUser = useRecoilValue(userAtom)
+  const [following, setFollowing] = useState(user.followers.includes(currentUser._id))
+  const showToast = useShowToast()
 
   const copyURL = () => {
     const currentURL = window.location.href;
@@ -26,6 +30,21 @@ const UserHeader = ({ user }) => {
       });
     });
   };
+
+  const handleFollowUnfollow = async () => {
+    try {
+        const res = await fetch(`/api/users/follow/${user._id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        })
+        const data = await res.json()
+        console.log(data)
+    } catch (error) {
+      showToast("Error", error, "error")
+    }
+  }
 
   return (
     <VStack gap={4} alignItems={"start"}>
@@ -72,7 +91,7 @@ const UserHeader = ({ user }) => {
       )}
       {currentUser._id !== user._id && (
       <Link as={RouterLink} >
-      <Button size={"sm"}>Follow</Button>
+      <Button size={"sm"} onClick={handleFollowUnfollow}>{following ? "unFollow" : "Follow"}</Button>
       </Link>
       )}
       <Flex w={"full"} justifyContent={"space-between"}>
