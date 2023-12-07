@@ -24,7 +24,6 @@ import {useRecoilState, useRecoilValue} from "recoil"
 import userAtom from "../atoms/userAtom"
 import postsAtom from "../atoms/postsAtom"
 import { BsFillImageFill } from "react-icons/bs";
-import { response } from "express";
 import useShowToast from "../hooks/useShowToast";
 
 const MAX_CHAR = 500;
@@ -75,8 +74,12 @@ const CreatePost = () => {
 
        onClose()
        setPostText("")
-       
-    } catch (error) {}
+
+    } catch (error) {
+      showToast("Error", error, "error")
+    }finally{
+      setLoading(false)
+    }
   };
   return (
     <>
