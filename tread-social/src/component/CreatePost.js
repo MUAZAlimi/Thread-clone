@@ -73,8 +73,9 @@ const CreatePost = () => {
        }
 
        onClose()
-       setPostText("")
 
+       setPostText("")
+       
     } catch (error) {
       showToast("Error", error, "error")
     }finally{
