@@ -5,9 +5,10 @@ import { useParams } from 'react-router-dom';
 import useShowToast from '../hooks/useShowToast';
 
 const UserPage = () => {
-  const [ user, setUser ] = useState(null);
+  const [user, setUser] = useState(null);
   const { username } = useParams();
   const showToast = useShowToast()
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
