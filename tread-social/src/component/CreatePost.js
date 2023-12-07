@@ -13,6 +13,9 @@ import {
   Button, 
   useDisclosure,
   Input,
+  Flex,
+  Image,
+  CloseButton,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import usePreviewImg from "../hooks/usePreviewImg"
@@ -22,7 +25,7 @@ const CreatePost = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const imageRef = useRef(null)
   const [postText, setPostText] = useState("")
-  const {handleImageChange, imgUrl} = usePreviewImg()
+  const {handleImageChange, imgUrl, setImgUrl} = usePreviewImg()
 
   const handleTextChange = () => {
 
@@ -31,7 +34,7 @@ const CreatePost = () => {
     <>
       <Button
         pos={"fixed"}
-        botton={10}
+        bottom={10}
         right={10}
         leftIcon={<AddIcon />}
         bg={"gray"}
@@ -65,14 +68,32 @@ const CreatePost = () => {
               <BsFillImageFill
                 style={{marginLeft: "5px", cursor: "pointer"}}
                 size={16}
-                onClick={(() => imageRef.current.click)}
+                onClick={(() => imageRef.current.click())}
               />
             </FormControl>
+
+              {imgUrl && (
+                 <Flex
+                   mt={"full"}
+                   pos={"relative"}
+                 >
+                  <Image src={imgUrl} alt="Select image" />
+                    <CloseButton 
+                        onClick={() => {
+                           setImgUrl("")
+                        }}
+                        bg={"gray.800"}
+                        pos={"absolute"}
+                        top={2}
+                        right={2}
+                    />
+                 </Flex>
+              )}
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+            <Button colorScheme="blue" mr={3} onClick={handleCreatePost} isLoading={loading}>
+              Post
             </Button>
           </ModalFooter>
         </ModalContent>
