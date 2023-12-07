@@ -22,6 +22,7 @@ import { useParams} from "react-router-dom";
 import usePreviewImg from "../hooks/usePreviewImg";
 import {useRecoilState, useRecoilValue} from "recoil"
 import userAtom from "../atoms/userAtom"
+import postsAtom from "../atoms/postsAtom"
 import { BsFillImageFill } from "react-icons/bs";
 import { response } from "express";
 import useShowToast from "../hooks/useShowToast";
@@ -73,6 +74,8 @@ const CreatePost = () => {
        }
 
        onClose()
+       setPostText("")
+       
     } catch (error) {}
   };
   return (
