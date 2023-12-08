@@ -11,18 +11,42 @@ import {
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "./Actions";
+import useShowToast from "../hooks/useShowToast";
 
 const Post = ({ post, postedBy }) => {
   const [liked, setLiked] = useState(false);
+  const [user, setUser] = useState(null)
+  const showToast = useShowToast()
+  useEffect(() => {
+    const getUser = async () => {
+        try {
+          const res = await fetch(`/api/users/profile/${postedBy}`)
+          const data = await res.json()
+          console.log(data)
+          setUser(data)
+          if(data.error) {
+            showToast("Error", data.error, "error");
+            return
+          }
+        } catch (err) {
+          showToast("Error", err.message, "error");
+          setUser(null)
+        } 
+    }
+    getUser()
+  }, [postedBy, showToast])
+
+  if(!user) return null;
+  
   return (
     <Link to={"/:aliumusa/post/:1"}>
       <Flex gap={3} mb={4} py={5}>
         <Flex alignItems={"center"} flexDir={"column"}>
-          <Avatar src="/directorPro.jpeg" size={"md"} name="Mark Zuckerberg" />
+          <Avatar src="/directorPro.jpeg" size={"md"} name={user.name} />
           <Box w={"1px"} h={"full"} bg={"gray.light"} my={2}></Box>
           <Box pos={"relative"} w={"full"}>
             <Avatar
@@ -57,7 +81,7 @@ const Post = ({ post, postedBy }) => {
         <Flex flex={1} flexDir={"column"} gap={2}>
           <Flex justifyContent={"space-between"} w={"full"} flex={1}>
             <Flex alignItems={"center"} w={"full"}>
-              <Text>Aliu Musa</Text>
+              <Text>{user.name}</Text>
               <Image src="/verified.png" ml={1} w={4} h={4} />
             </Flex>
             <Flex
@@ -65,7 +89,7 @@ const Post = ({ post, postedBy }) => {
               gap={4}
               onClick={(e) => e.preventDefault()}
             >
-              <Text color={"gray.light"}>{postTime}</Text>
+              <Text color={"gray.light"}>1day</Text>
               <Menu>
                 <MenuButton>
                   <BsThreeDots cursor={"pointer"} />
@@ -84,15 +108,15 @@ const Post = ({ post, postedBy }) => {
               </Menu>
             </Flex>
           </Flex>
-          <Text>{postTitle}</Text>
-          {postImg && (
+          <Text>{post.text}</Text>
+          {post.img && (
             <Box
               borderRadius={6}
               overflow={"hidden"}
               border={"1px solid"}
               borderColor={"gray.light"}
             >
-              <Image src={postImg} width={"full"} />
+              <Image src={post.img} width={"full"} />
             </Box>
           )}
 
@@ -105,9 +129,9 @@ const Post = ({ post, postedBy }) => {
             fontSize={"sm"}
             alignItems={"center"}
           >
-            <Text>{replies} replies</Text>
+            <Text>{post.replies.length} replies</Text>
             <Box w={0.5} h={0.5} bg={"gray.light"}></Box>
-            <Text>{21 + (liked ? 1 : 0)} likes</Text>
+            <Text>{post.likes.length} likes</Text>
           </Flex>
         </Flex>
       </Flex>
