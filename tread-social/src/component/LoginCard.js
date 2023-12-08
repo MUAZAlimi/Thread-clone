@@ -21,6 +21,7 @@ import useShowToast from "../hooks/useShowToast";
 import userAtom from "../atoms/userAtom";
 
 export default function LoginCard() {
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const [inputs, setInputs] = useState({
@@ -31,6 +32,7 @@ export default function LoginCard() {
   const setUser = useSetRecoilState(userAtom);
 
   const handleLogin = async () => {
+    setLoading(true)
     try {
       const res = await fetch("/api/users/login", {
         method: "POST",
@@ -119,7 +121,9 @@ export default function LoginCard() {
                   bg: useColorModeValue("gray.700", "gray.800"),
                 }}
                 onClick={handleLogin}
+                isLoading={loading}
               >
+                {/* {!loading ? "Login." : "Login in..."} */}
                 Login
               </Button>
             </Stack>
