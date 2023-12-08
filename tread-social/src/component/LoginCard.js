@@ -32,7 +32,7 @@ export default function LoginCard() {
   const setUser = useSetRecoilState(userAtom);
 
   const handleLogin = async () => {
-    setLoading(true)
+    
     try {
       const res = await fetch("/api/users/login", {
         method: "POST",
@@ -52,6 +52,8 @@ export default function LoginCard() {
       setUser(data);
     } catch (error) {
       showToast("Error", error, "error");
+    }finally{
+      setLoading(false)
     }
   };
   return (
