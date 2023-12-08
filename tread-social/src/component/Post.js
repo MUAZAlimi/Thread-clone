@@ -12,14 +12,16 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "./Actions";
 import useShowToast from "../hooks/useShowToast";
+import { formatDistanceToNow } from "date-fns"
 
 const Post = ({ post, postedBy }) => {
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate() 
   const showToast = useShowToast();
   useEffect(() => {
     const getUser = async () => {
@@ -50,6 +52,10 @@ const Post = ({ post, postedBy }) => {
             src={user.profilePic}
             size={"md"}
             name={`${user.name} ${user.username}`}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(`/${user.username}`)
+            }}
           />
           <Box w={"1px"} h={"full"} bg={"gray.light"} my={2}></Box>
           <Box pos={"relative"} w={"full"}>
@@ -90,16 +96,21 @@ const Post = ({ post, postedBy }) => {
         </Flex>
         <Flex flex={1} flexDir={"column"} gap={2}>
           <Flex justifyContent={"space-between"} w={"full"} flex={1}>
-            <Flex alignItems={"center"} w={"full"}>
+            <Flex alignItems={"center"} w={"full"}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/${user.username}`)
+              }}
+            >
               <Text>{user.name}</Text>
-              <Image src={user.profilePic} ml={1} w={4} h={4} />
+              <Image src="/verified.png" ml={1} w={4} h={4} />
             </Flex>
             <Flex
               alignItems={"center"}
               gap={4}
               onClick={(e) => e.preventDefault()}
             >
-              <Text color={"gray.light"}>1day</Text>
+              <Text color={"gray.light"}>{formatDistanceToNow(new Date(post.createdAt))} ago</Text>
               <Menu>
                 <MenuButton>
                   <BsThreeDots cursor={"pointer"} />
