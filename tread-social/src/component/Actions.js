@@ -9,6 +9,8 @@ const Actions = ({ post: post_ }) => {
   const [post, setPost] = useState(post_);
   const [liked, setLiked] = useState(post.likes.includes(user?._id));
   const [isLiking, setIsLiking] = useState(false);
+  const [reply, setReply] = useState("")
+  const [isReplying, setIsReplying] = useState(false)
   const showToast = useShowToast();
 
   const handleLikeAndUnlike = async () => {
@@ -46,6 +48,24 @@ const Actions = ({ post: post_ }) => {
       setIsLiking(false);
     }
   };
+
+  const handleReply = () => {
+    if(!user)
+    return showToast(
+      "Error",
+      "You must be logged in to reply a post",
+      "error"
+    );
+
+    if(isReplying) return;
+    setIsReplying(true)
+
+    try {
+      
+    } catch (error) {
+      showToast("Error", error.message, "error");
+    }
+  }
 
   return (
     <Flex flexDirection="column">
