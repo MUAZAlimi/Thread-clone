@@ -17,12 +17,16 @@ import Actions from "./Actions";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import { formatDistanceToNow } from "date-fns";
+import { DeleteIcon } from "@chakra-ui/icons"
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const Post = ({ post, postedBy }) => {
 	const [liked, setLiked] = useState(false);
 	const [user, setUser] = useState(null);
 	const showToast = useShowToast();
 	const navigate = useNavigate();
+	const currentUser = useRecoilValue(userAtom)
 
 	useEffect(() => {
 		const getUser = async () => {
@@ -44,6 +48,8 @@ const Post = ({ post, postedBy }) => {
 	}, [postedBy, showToast]);
 
 	if (!user) return null;
+
+	const handleDeletePost = () => {}
 
 	return (
 		<Link to={`/${user.username}/post/${post._id}`}>
@@ -119,7 +125,8 @@ const Post = ({ post, postedBy }) => {
 							<Text fontSize={"xs"} width={36} textAlign={"right"}>
 								{formatDistanceToNow(new Date(post.createdAt))} ago
 							</Text>
-							<Menu>
+							{currentUser?._id === user._id && <DeleteIcon size={20} onClick={handleDeletePost}/>}
+							{/* <Menu>
 								<MenuButton>
 									<BsThreeDots cursor={"pointer"} />
 								</MenuButton>
@@ -137,7 +144,7 @@ const Post = ({ post, postedBy }) => {
 										<MenuItem color={"red"}>Report</MenuItem>
 									</MenuGroup>
 								</MenuList>
-							</Menu>
+							</Menu> */}
 						</Flex>
 					</Flex>
 
@@ -156,7 +163,7 @@ const Post = ({ post, postedBy }) => {
 						<Actions post={post} />
 					</Flex>
 
-				
+
 				</Flex>
 			</Flex>
 		</Link>
