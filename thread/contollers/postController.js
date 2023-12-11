@@ -171,7 +171,7 @@ const getUserPost = async (req, res) => {
     const posts = await Post.find({ postedBy: user._id }).sort({
       createAt: -1,
     });
-    res.status(200).json({ posts });
+    res.status(200).json( posts );
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
