@@ -1,6 +1,6 @@
-import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import Post from "../component/Post";
 
