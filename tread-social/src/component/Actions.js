@@ -1,4 +1,20 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
@@ -9,9 +25,11 @@ const Actions = ({ post: post_ }) => {
   const [post, setPost] = useState(post_);
   const [liked, setLiked] = useState(post.likes.includes(user?._id));
   const [isLiking, setIsLiking] = useState(false);
-  const [reply, setReply] = useState("")
-  const [isReplying, setIsReplying] = useState(false)
+  const [reply, setReply] = useState("");
+  const [isReplying, setIsReplying] = useState(false);
   const showToast = useShowToast();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleLikeAndUnlike = async () => {
     if (!user)
@@ -50,30 +68,37 @@ const Actions = ({ post: post_ }) => {
   };
 
   const handleReply = async () => {
-    if(!user)
-    return showToast(
-      "Error",
-      "You must be logged in to reply a post",
-      "error"
-    );
+    if (!user)
+      return showToast(
+        "Error",
+        "You must be logged in to reply a post",
+        "error"
+      );
 
-    if(isReplying) return;
-    setIsReplying(true)
+    if (isReplying) return;
+    setIsReplying(true);
 
     try {
-        const res = await fetch("/api/posts/reply/" + post._id, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text: reply })
-        })
-        const data = await res.json()
-        console.log(data)
+      const res = await fetch("/api/posts/reply/" + post._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: reply }),
+      });
+      const data = await res.json();
+      // console.log(data)
+
+      setPost({ ...post, replies: [...post.replies, data] });
+      showToast("Success", "Reply post successfully", "success");
+      onClose();
+      setReply("");
     } catch (error) {
       showToast("Error", error.message, "error");
+    } finally {
+      setIsReplying(false);
     }
-  }
+  };
 
   return (
     <Flex flexDirection="column">
@@ -102,14 +127,15 @@ const Actions = ({ post: post_ }) => {
         </svg>
 
         <svg
-          aria-label="Reply"
+          aria-label="Comment"
           fill="currentColor"
           height="20"
           role="img"
           viewBox="0 0 24 24"
           width="20"
+          onClick={onOpen}
         >
-          <title>Reply</title>
+          <title>Comment</title>
           <path
             d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"
             fill="none"
@@ -128,6 +154,32 @@ const Actions = ({ post: post_ }) => {
         <Box w={0.5} h={0.5} bg={"gray.light"} borderRadius={"full"}></Box>
         <Text>{post.likes.length} likes</Text>
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <Input
+                placeholder="Reply goes here..."
+                value={reply}
+                onChange={(e) => setReply(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} 
+              size={"sm"}
+              isLoading={isReplying}
+              onClick={handleReply}
+            >
+              Reply
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };
