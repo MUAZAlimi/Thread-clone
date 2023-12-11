@@ -65,8 +65,11 @@ const Actions = ({ post: post_ }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
-          }
+          },
+          body: JSON.stringify({ text: reply })
         })
+        const data = await res.json()
+        console.log(data)
     } catch (error) {
       showToast("Error", error.message, "error");
     }
