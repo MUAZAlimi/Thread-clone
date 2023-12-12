@@ -20,7 +20,7 @@ import { formatDistanceToNow } from "date-fns";
 import { DeleteIcon } from "@chakra-ui/icons"
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-import e from "express";
+// import e from "express";
 
 const Post = ({ post, postedBy }) => {
 	const [liked, setLiked] = useState(false);
@@ -53,23 +53,24 @@ const Post = ({ post, postedBy }) => {
 	const handleDeletePost = async (e) => {
 		try {
 			e.preventDefault();
-			if (!window.confirm("Are you sure you want to delete this post")) return;
+			if (!window.confirm("Are you sure you want to delete this post?")) return;
+
 			const res = await fetch(`/api/posts/${post._id}`, {
-				method: 'DELETE'
-			})
+				method: "DELETE",
+			});
 
 			const data = await res.json();
 
-			if(data.error) {
-				 showToast("Error", data.error, "error")
-				 return
+			if (data.error) {
+				showToast("Error", data.error, "error");
+				return;
 			}
-
-			showToast("Success", "Post deleted", "success")
+			showToast("Success", "Post deleted successfully", "success");
 		} catch (error) {
 			showToast("Error", error.message, "error");
 		}
-	}
+	};
+
 
 	return (
 		<Link to={`/${user.username}/post/${post._id}`}>

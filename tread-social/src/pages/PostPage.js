@@ -7,13 +7,17 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../component/Actions";
 import Comments from "../component/Comments";
 
 const PostPage = () => {
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
+  const [user, setUser] = useState(null)
+
+ 
+  
   return (
     <>
       <Flex
@@ -69,14 +73,14 @@ const PostPage = () => {
       </Flex>
       <Divider my={4} />
 
-      <Comments
+      {/* <Comments
         comment={"This is amazing"}
         createdAt={"2 min ago"}
         userAvater={"https://bit.ly/ryan-florence"}
         likes={12}
         username={"JohnDoe"}
-      />
-      <Comments
+      /> */}
+      {/* <Comments
         comment={" This is an amazing post. Thanks for the update"}
         userAvater={"/directorPro.jpeg"}
         createdAt={"5 min ago"}
@@ -89,7 +93,7 @@ const PostPage = () => {
         userAvater={"https://bit.ly/ryan-florence"}
         likes={18}
         username={"Muha"}
-      />
+      /> */}
     </>
   );
 };
