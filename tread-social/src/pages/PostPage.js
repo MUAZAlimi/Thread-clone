@@ -5,18 +5,25 @@ import {
   Divider,
   Flex,
   Image,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../component/Actions";
 import Comments from "../component/Comments";
+import useGetUserProfile from "../hooks/useGetUserProfile";
 
 const PostPage = () => {
-  // const [liked, setLiked] = useState(false);
-  const [user, setUser] = useState(null)
+  const {user, loading} = useGetUserProfile()
 
- 
+    if(!user && loading) {
+      return (
+        <Flex justifyContent={"center"}>
+          <Spinner  size={"xl"}/>
+        </Flex>
+      )
+    }
   
   return (
     <>
