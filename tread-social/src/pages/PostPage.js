@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BsThreeDots } from "react-icons/bs";
 import {
 	Avatar,
 	Box,
@@ -10,7 +9,7 @@ import {
 	Spinner,
 	Text,
 } from "@chakra-ui/react";
-import Actions from "../components/Actions";
+import Actions from "../component/Actions";
 import useShowToast from "../hooks/useShowToast";
 import { useParams } from "react-router-dom";
 import useGetUserProfile from "../hooks/useGetUserProfile";
