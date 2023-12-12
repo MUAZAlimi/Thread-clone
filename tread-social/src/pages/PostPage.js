@@ -16,19 +16,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import Comments from "../component/Comments";
+import postsAtom from "../atoms/postsAtom";
 
 const PostPage = () => {
 	const { user, loading } = useGetUserProfile();
+	const [posts, setPosts] = useRecoilState(postsAtom);
 	const [post, setPost] = useState(null);
 	const showToast = useShowToast();
 	const { pid } = useParams();
 	const currentUser = useRecoilValue(userAtom);
-  const navigate = useNavigate()
+	const navigate = useNavigate();
 
-
+	const currentPost = posts[0];
 	useEffect(() => {
 		const getPosts = async () => {
 			try {
@@ -38,20 +40,20 @@ const PostPage = () => {
 					showToast("Error", data.error, "error");
 					return;
 				}
-				setPost(data);
+				setPosts([data]);
 				console.log(data);
 			} catch (error) {
 				showToast("Error", error, "error");
 			}
 		};
 		getPosts();
-	}, [showToast, pid]);
+	}, [showToast, pid, setPosts]);
 
-  const handleDeletePost = async () => {
+	const handleDeletePost = async () => {
 		try {
 			if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-			const res = await fetch(`/api/posts/${post._id}`, {
+			const res = await fetch(`/api/posts/${currentPost._id}`, {
 				method: "DELETE",
 			});
 
@@ -62,7 +64,7 @@ const PostPage = () => {
 				return;
 			}
 			showToast("Success", "Post deleted successfully", "success");
-      navigate(`/${user.username}`)
+			navigate(`/${user.username}`);
 		} catch (error) {
 			showToast("Error", error.message, "error");
 		}
@@ -76,7 +78,7 @@ const PostPage = () => {
 		);
 	}
 
-	if (!post) return null;
+	if (!currentPost) return null;
 
 	return (
 		<>
@@ -87,8 +89,13 @@ const PostPage = () => {
 				justifyContent={"space-between"}
 			>
 				<Flex alignItems={"center"}>
-					<Avatar src={user.profilePic} name={user.name} size={"md"} mr={2} />
-					<Text fontSize={"sm"}>{user.username}</Text>
+					<Avatar
+						src={currentPost.profilePic}
+						name={currentPost.name}
+						size={"md"}
+						mr={2}
+					/>
+					<Text fontSize={"sm"}>{currentPost.username}</Text>
 					<Image src="/verified.png" h={4} w={4} ml={2} />
 				</Flex>
 
@@ -98,29 +105,38 @@ const PostPage = () => {
 					gap={4}
 					onClick={(e) => e.preventDefault()}
 				>
-					<Text fontSize={"xs"} width={36} textAlign={"right"} color={"gray.light"}>
-						{formatDistanceToNow(new Date(post.createdAt))} ago
+					<Text
+						fontSize={"xs"}
+						width={36}
+						textAlign={"right"}
+						color={"gray.light"}
+					>
+						{formatDistanceToNow(new Date(currentPost.createdAt))} ago
 					</Text>
 					{currentUser?._id === user._id && (
-						<DeleteIcon cursor={"pointer"} size={20} onClick={handleDeletePost} />
+						<DeleteIcon
+							cursor={"pointer"}
+							size={20}
+							onClick={handleDeletePost}
+						/>
 					)}
 				</Flex>
 			</Flex>
-			<Text my={3}>{post.text}</Text>
+			<Text my={3}>{currentPost.text}</Text>
 
-			{post.img && (
+			{currentPost.img && (
 				<Box
 					borderRadius={6}
 					overflow={"hidden"}
 					border={"1px solid"}
 					borderColor={"gray.light"}
 				>
-					<Image src={post.img} width={"full"} />
+					<Image src={currentPost.img} width={"full"} />
 				</Box>
 			)}
 
 			<Flex>
-				<Actions post={post} />
+				<Actions post={currentPost} />
 			</Flex>
 
 			<Divider my={4} />
@@ -134,11 +150,17 @@ const PostPage = () => {
 			</Flex>
 
 			<Divider my={4} />
-			<Divider my={4}/>
-        {post.replies.map(reply => (
-          <Comments key={reply._id} reply={reply} />
-        ))}
-      
+			<Divider my={4} />
+			{currentPost.replies.map((reply) => (
+				<Comments
+					key={reply._id}
+					reply={reply}
+					lastReply={
+						reply._id ===
+						currentPost.replies[currentPost.replies.length - 1]._id
+					}
+				/>
+			))}
 
 			{/* <Comments username={'Ryan Florence'} likes={12} createdAt={'2 min ago'} userAvatar={'https://bit.ly/ryan-florence'} comment={"Keep it up!!"} /> */}
 		</>
