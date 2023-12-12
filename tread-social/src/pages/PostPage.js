@@ -38,7 +38,7 @@ const PostPage = () => {
         }
     }
     getPost()
-  }, [])
+  }, [showToast, pid])
   
 
     if(!user && loading) {
@@ -75,7 +75,7 @@ const PostPage = () => {
         </Flex>
       </Flex>
 
-      <Text my={3}>Hello gbogbo aye!!!</Text>
+      <Text my={3}>{post.post.text}</Text>
 
       <Box
         overflow={"hidden"}
