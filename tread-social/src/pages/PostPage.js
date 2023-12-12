@@ -13,9 +13,33 @@ import { BsThreeDots } from "react-icons/bs";
 import Actions from "../component/Actions";
 import Comments from "../component/Comments";
 import useGetUserProfile from "../hooks/useGetUserProfile";
+import useShowToast from "../hooks/useShowToast";
+import { useParams } from "react-router-dom";
 
 const PostPage = () => {
   const {user, loading} = useGetUserProfile()
+  const [post, setPost] = useState(null)
+  const showToast = useShowToast()
+  const {pid} = useParams()
+
+  useEffect(() => {
+    const getPost = async () => {
+        try {
+           const res = await fetch(`/api/posts/user/${pid}`)
+           const data = await res.json()
+           if (data.error) {
+            showToast("Error", data.error, "error")
+            return
+           }
+           console.log(data)
+           setPost(data)
+        } catch (error) {
+           showToast("Error", error.message, "error")
+        }
+    }
+    getPost()
+  }, [])
+  
 
     if(!user && loading) {
       return (
@@ -34,8 +58,8 @@ const PostPage = () => {
         justifyContent={"space-between"}
       >
         <Flex alignItems={"center"}>
-          <Avatar src="/aliumusa.jpeg" name="Alimi Muaz" size={"md"} mr={2} />
-          <Text fontSize={"sm"}>Alimi Muaz</Text>
+          <Avatar src={user.profilePic} name="Alimi Muaz" size={"md"} mr={2} />
+          <Text fontSize={"sm"}>{user.username}</Text>
           <Image src="/verified.png" h={4} w={4} ml={2} />
         </Flex>
         <Flex alignItems={"center"} gap={4}>
