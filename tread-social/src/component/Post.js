@@ -17,24 +17,24 @@ import Actions from "./Actions";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import { formatDistanceToNow } from "date-fns";
-import { DeleteIcon } from "@chakra-ui/icons"
+import { DeleteIcon } from "@chakra-ui/icons";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-// import e from "express";
 
 const Post = ({ post, postedBy }) => {
 	const [liked, setLiked] = useState(false);
 	const [user, setUser] = useState(null);
 	const showToast = useShowToast();
 	const navigate = useNavigate();
-	const currentUser = useRecoilValue(userAtom)
+	const currentUser = useRecoilValue(userAtom);
+	// console.log(post)
 
 	useEffect(() => {
 		const getUser = async () => {
 			try {
 				const res = await fetch(`/api/users/profile/${postedBy}`);
 				const data = await res.json();
-				console.log(data);
+				// console.log(data);
 				setUser(data);
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -47,8 +47,6 @@ const Post = ({ post, postedBy }) => {
 		};
 		getUser();
 	}, [postedBy, showToast]);
-
-	if (!user) return null;
 
 	const handleDeletePost = async (e) => {
 		try {
@@ -71,6 +69,7 @@ const Post = ({ post, postedBy }) => {
 		}
 	};
 
+	if (!user) return null;
 
 	return (
 		<Link to={`/${user.username}/post/${post._id}`}>
@@ -143,29 +142,13 @@ const Post = ({ post, postedBy }) => {
 							gap={4}
 							onClick={(e) => e.preventDefault()}
 						>
-							<Text fontSize={"xs"} width={36} textAlign={"right"}>
+							<Text fontSize={"xs"} width={36} textAlign={"right"} color={"gray.light"}>
 								{formatDistanceToNow(new Date(post.createdAt))} ago
 							</Text>
-							{currentUser?._id === user._id && <DeleteIcon size={20} onClick={handleDeletePost}/>}
-							{/* <Menu>
-								<MenuButton>
-									<BsThreeDots cursor={"pointer"} />
-								</MenuButton>
-								<MenuList>
-									<MenuGroup>
-										<MenuItem color={"gray.light"}>Mute</MenuItem>
-									</MenuGroup>
-									<MenuDivider />
-									<MenuGroup>
-										<MenuItem color={"red"}>Block</MenuItem>
-										<MenuItem color={"gray.light"}>Hide</MenuItem>
-									</MenuGroup>
-									<MenuDivider />
-									<MenuGroup>
-										<MenuItem color={"red"}>Report</MenuItem>
-									</MenuGroup>
-								</MenuList>
-							</Menu> */}
+							{currentUser?._id === user._id && (
+								<DeleteIcon cursor={"pointer"} size={20} onClick={handleDeletePost} />
+							)}
+							
 						</Flex>
 					</Flex>
 
@@ -183,8 +166,6 @@ const Post = ({ post, postedBy }) => {
 					<Flex gap={3} my={1}>
 						<Actions post={post} />
 					</Flex>
-
-
 				</Flex>
 			</Flex>
 		</Link>
