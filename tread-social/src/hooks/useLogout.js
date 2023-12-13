@@ -1,9 +1,11 @@
-import React from 'react'
 import useShowToast from './useShowToast';
+import { useRecoilState, } from 'recoil';
+import userAtom from '../atoms/userAtom';
 
 const useLogOut = () => {
+    const setUser = useRecoilState(userAtom);
     const showToast = useShowToast()
-    const setUser = useSetRecoilState(userAtom);
+    
     const logout = async () => {
         try {
           const res = await fetch("/api/users/logout", {
