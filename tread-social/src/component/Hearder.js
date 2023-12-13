@@ -1,9 +1,10 @@
-import { Flex, Image, useColorMode, Link } from "@chakra-ui/react";
+import { Flex, Image, useColorMode, Link, Button } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { AiFillHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import { Link as RouterLink } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
 // import RxAvater from "./RxAvater"
 
 const Header = () => {
@@ -13,8 +14,8 @@ const Header = () => {
   return (
     <Flex justifyContent={"center"} mt={6} mb="12" gap={100}>
       {user && (
-        <Link as={RouterLink} to="/" >
-          <AiFillHome size={24}gap={3} />
+        <Link as={RouterLink} to="/">
+          <AiFillHome fontSize={24} />
         </Link>
       )}
 
@@ -32,9 +33,14 @@ const Header = () => {
       />
 
       {user && (
-        <Link as={RouterLink} to={`/${user.username}`} >
-          <RxAvatar size={24} />
-        </Link>
+        <Flex alignItems={"center"} gap={4}>
+          <Link as={RouterLink} to={`/${user.username}`}>
+            <RxAvatar fontSize={24} />
+          </Link>
+          <Button size={"xs"}>
+            <FiLogOut size={20} />
+          </Button>
+        </Flex>
       )}
     </Flex>
   );
