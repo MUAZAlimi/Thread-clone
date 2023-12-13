@@ -1,11 +1,11 @@
 import useShowToast from './useShowToast';
-import { useRecoilState, } from 'recoil';
+import { useSetRecoilState, } from 'recoil';
 import userAtom from '../atoms/userAtom';
 
 const useLogOut = () => {
-    const setUser = useRecoilState(userAtom);
+    const setUser = useSetRecoilState(userAtom);
     const showToast = useShowToast()
-    
+
     const logout = async () => {
         try {
           const res = await fetch("/api/users/logout", {
@@ -26,6 +26,7 @@ const useLogOut = () => {
           showToast("Error", error, "error");
         }
     }
+    return logout
 }
 
 export default useLogOut
